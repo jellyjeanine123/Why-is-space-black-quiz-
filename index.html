@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Why Is Space Black? Quiz</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(to bottom,#000428,#004e92);
+color:white;
+text-align:center;
+padding:20px;
+margin:0;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:rgba(255,255,255,0.1);
+padding:30px;
+border-radius:20px;
+box-shadow:0 0 20px cyan;
+}
+
+h1{
+color:gold;
+}
+
+.question{
+font-size:28px;
+margin:20px;
+}
+
+button{
+display:block;
+width:100%;
+margin:10px 0;
+padding:15px;
+border:none;
+border-radius:15px;
+background:linear-gradient(45deg,#6a11cb,#2575fc);
+color:white;
+font-size:18px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+box-shadow:0 0 15px cyan;
+}
+
+#message{
+margin-top:20px;
+font-size:22px;
+font-weight:bold;
+min-height:100px;
+}
+
+#restartBtn{
+display:none;
+background:orange;
+margin-top:20px;
+}
+
+#result{
+font-size:30px;
+color:gold;
+margin-top:20px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>🌌 Why Is Space Black?</h1>
+
+<div id="progress"></div>
+
+<div id="question" class="question"></div>
+
+<div id="answers"></div>
+
+<div id="message"></div>
+
+<div id="result"></div>
+
+<button id="restartBtn" onclick="restartQuiz()">
+🔄 Restart Quiz
+</button>
+
+</div>
+
+<script>
+
+const quizData = [
+
+{
+question:"About how old is the universe?",
+answers:[
+"14 billion years",
+"100 million years",
+"1 billion years",
+"500 billion years"
+],
+correct:0,
+explanation:"The universe began about 14 billion years ago. Because it had a beginning, some light from very distant stars has not reached Earth yet."
+},
+
+{
+question:"Why is space black?",
+answers:[
+"There are no stars",
+"The universe is not infinitely old",
+"The Moon blocks all light",
+"The Earth blocks the stars"
+],
+correct:1,
+explanation:"Space is black because the universe is not infinitely old. If it had been around forever, the sky would be completely bright."
+},
+
+{
+question:"What is happening to the universe?",
+answers:[
+"It is shrinking",
+"It is disappearing",
+"It is expanding",
+"It is frozen"
+],
+correct:2,
+explanation:"The universe is expanding like a giant balloon being blown up. This stretches light travelling through space."
+},
+
+{
+question:"Why has some starlight not reached us?",
+answers:[
+"The stars are turned off",
+"The light is still travelling to Earth",
+"The Moon absorbs it",
+"Clouds block it"
+],
+correct:1,
+explanation:"Some stars are so far away that their light is still travelling through space and has not reached Earth yet."
+},
+
+{
+question:"What can happen to distant starlight as the universe expands?",
+answers:[
+"It turns green",
+"It becomes invisible to our eyes",
+"It gets louder",
+"It becomes solid"
+],
+correct:1,
+explanation:"The expanding universe stretches some light so much that humans can no longer see it."
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion(){
+
+document.getElementById("message").innerHTML="";
+
+document.getElementById("progress").innerHTML =
+"<h3>Question " + (currentQuestion+1) +
+" of " + quizData.length + "</h3>";
+
+document.getElementById("question").innerHTML =
+quizData[currentQuestion].question;
+
+const answersDiv = document.getElementById("answers");
+answersDiv.innerHTML="";
+
+quizData[currentQuestion].answers.forEach((answer,index)=>{
+
+const btn = document.createElement("button");
+btn.innerHTML = answer;
+
+btn.onclick = function(){
+checkAnswer(index);
+};
+
+answersDiv.appendChild(btn);
+
+});
+}
+
+function checkAnswer(selected){
+
+const msg = document.getElementById("message");
+
+if(selected === quizData[currentQuestion].correct){
+
+score++;
+
+msg.innerHTML =
+"✅ <span style='color:#00ff88'>Yay! You got it Correct!</span><br><br>" +
+"🌟 " + quizData[currentQuestion].explanation;
+
+setTimeout(function(){
+
+currentQuestion++;
+
+if(currentQuestion < quizData.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+},4000);
+
+}else{
+
+msg.innerHTML =
+"❌ <span style='color:#ff5555'>Oh... something is wrong! Try again!</span>";
+
+}
+
+}
+
+function showResult(){
+
+document.getElementById("question").style.display="none";
+document.getElementById("answers").style.display="none";
+document.getElementById("progress").style.display="none";
+
+document.getElementById("result").innerHTML =
+"🏆 You scored " + score + "/" + quizData.length +
+"<br><br>Great Job!";
+
+document.getElementById("message").innerHTML =
+"🌌 Space looks black because the universe started about 14 billion years ago and is still expanding. Some light from distant stars has not reached Earth yet, and some light has stretched so much that we cannot see it.";
+
+document.getElementById("restartBtn").style.display="block";
+}
+
+function restartQuiz(){
+
+currentQuestion = 0;
+score = 0;
+
+document.getElementById("question").style.display="block";
+document.getElementById("answers").style.display="block";
+document.getElementById("progress").style.display="block";
+
+document.getElementById("result").innerHTML="";
+document.getElementById("message").innerHTML="";
+document.getElementById("restartBtn").style.display="none";
+
+loadQuestion();
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
